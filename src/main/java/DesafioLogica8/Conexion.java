@@ -4,11 +4,10 @@ import java.sql.*;
 import java.util.Properties;
 
 public class Conexion {
-	
 
 	public static void main(String[] args) {
 
-		insertCines(getConection(), 4,"Yelmo Cartuja", "Sevilla");
+		insertCines(getConection(), "Yelmo Cadiz", "Jerez");
 
 	}
 
@@ -39,17 +38,15 @@ public class Conexion {
 
 	}
 
-	public static void insertCines(Connection con,int id, String cineName, String adress) {
+	public static void insertCines(Connection con, String cineName, String adress) {
 
-		String consulta = "INSERT INTO cines (identificador, nombreCine, direccion) VALUES (?, ?, ?)";
+		String consulta = "INSERT INTO cines (identificador, nombreCine, direccion) VALUES ( ?,?, ?)";
 
 		try (PreparedStatement st = con.prepareStatement(consulta)) {
 
-
-			st.setInt(1, id);
+			st.setInt(1, 0);
 			st.setString(2, cineName);
 			st.setString(3, adress);
-			
 
 			st.executeUpdate();
 
