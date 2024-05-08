@@ -20,7 +20,25 @@ public class MenuGestion {
 
 		case 1:
 
-			insertCines(opcMenu, con);
+			System.out.println("¿Que operacion quieres realizar de las siguientes:?");
+			System.out.println(" 1.Crear registro." + "\n 2.Modificar un registro" + "\n 3.Borrar un registro "
+					+ "\n 4.Visializar todos los registros de la tabla ");
+
+			int opcionInterna = scn.nextInt();
+
+			if (opcionInterna == 1) {
+				insertCines(opcMenu, con);
+			}
+			if (opcionInterna == 2) {
+				menuModificacion(opcMenu, con);
+			}
+			if (opcionInterna == 3) {
+				menuDelete(opcMenu, con);
+			}
+			if (opcionInterna == 4) {
+				System.out.println("Lista de cines");
+
+			}
 
 			break;
 
@@ -42,6 +60,36 @@ public class MenuGestion {
 		}
 	}
 
+	private static void menuDelete(Scanner opcMenu, Conexion con) {
+		try {
+
+			System.out.println("¿Que numero de cine quieres eliminar?");
+			int cineEliminado = opcMenu.nextInt();
+
+			con.eliminarCines(con.getConection(), cineEliminado);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void menuModificacion(Scanner opcMenu, Conexion con) {
+		try {
+
+			System.out.println("Introduce el indice del cine al que deseas cambiar el nombre:");
+			int indiceMoficiado = opcMenu.nextInt();
+
+			System.out.println("Introduce el nuevo nombre:");
+			String nuevoNombre = opcMenu.nextLine();
+
+			con.modificarNombreCine(con.getConection(), indiceMoficiado, nuevoNombre);
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
+
 	private static void insertCines(Scanner opcMenu, Conexion con) {
 		try {
 			System.out.println("Introduce el nombre del cine que quieres introducir:");
@@ -50,7 +98,7 @@ public class MenuGestion {
 			System.out.println("Introduce la dirrecion del cine:");
 			String direccion = opcMenu.nextLine();
 
-			con.insertCines(con.getConection(), nombreCine, direccion);
+			con.crearCines(con.getConection(), nombreCine, direccion);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +114,7 @@ public class MenuGestion {
 			System.out.println("¿Y que superficie tiene la sala?");
 			double superficie = opcMenu.nextDouble();
 
-			con.insertSalas(con.getConection(), capacidad, superficie);
+			con.crearSalas(con.getConection(), capacidad, superficie);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,7 +145,7 @@ public class MenuGestion {
 			System.out.println("Precio:");
 			int precio = opcMenu.nextInt();
 
-			con.insertPeliculas(con.getConection(), titulo, duracion, genero, director, clasificacionEdad, precio);
+			con.crearPeliculas(con.getConection(), titulo, duracion, genero, director, clasificacionEdad, precio);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
