@@ -5,7 +5,12 @@ import java.util.Scanner;
 
 public class MenuGestion {
 
-	public static void main(String[] args) {
+	public MenuGestion() {
+
+		iniciarMenu();
+	}
+
+	private void iniciarMenu() {
 
 		Scanner scn = new Scanner(System.in);
 		Scanner opcMenu = new Scanner(System.in);
@@ -71,8 +76,28 @@ public class MenuGestion {
 
 		case 3:
 
-			insertSalas(opcMenu, con);
+			System.out.println("¿Que operacion quieres realizar de las siguientes:?");
+			System.out.println(" 1.Crear registro." + "\n 2.Modificar un registro" + "\n 3.Borrar un registro "
+					+ "\n 4.Visializar todos los registros de la tabla ");
 
+			int menuTres = scn.nextInt();
+
+			if (menuTres == 1) {
+
+				insertSalas(opcMenu, con);
+
+			}
+			if (menuTres == 2) {
+
+				actualizarSalas(opcMenu, con);
+			}
+			if (menuTres == 3) {
+
+				borrarSala(opcMenu, con);
+			}
+			if (menuTres == 4) {
+				con.verSalas(con.getConection());
+			}
 			break;
 
 		default:
@@ -83,7 +108,37 @@ public class MenuGestion {
 		}
 	}
 
-	private static void modificarPelis(Scanner opcMenu, Conexion con) {
+	public static void actualizarSalas(Scanner opcMenu, Conexion con) {
+		try {
+
+			System.out.println("Ingresa el indice de la sala a modificar:");
+
+			int indiceMod = opcMenu.nextInt();
+
+			System.out.println("Ingresa el nuevo tamaño de la sala:");
+
+			int nuevoTamaño = opcMenu.nextInt();
+
+			con.modificarSalas(con.getConection(), nuevoTamaño, indiceMod);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void borrarSala(Scanner opcMenu, Conexion con) {
+		try {
+
+			System.out.println("¿Que sala quieres eliminar?");
+			int salaDelete = opcMenu.nextInt();
+			con.eliminarSalas(con.getConection(), salaDelete);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void modificarPelis(Scanner opcMenu, Conexion con) {
 		try {
 
 			System.out.println("Introduce el indice de la pelicula a la que deseas cambiar el nombre:");
@@ -96,11 +151,11 @@ public class MenuGestion {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		
+
 		}
 	}
 
-	private static void eliminarPeli(Scanner opcMenu, Conexion con) {
+	public static void eliminarPeli(Scanner opcMenu, Conexion con) {
 
 		try {
 			System.out.println("Introduce el indice de la pelicula a eliminar:");
@@ -114,7 +169,7 @@ public class MenuGestion {
 		}
 	}
 
-	private static void menuDeleteCines(Scanner opcMenu, Conexion con) {
+	public static void menuDeleteCines(Scanner opcMenu, Conexion con) {
 		try {
 
 			System.out.println("¿Que numero de cine quieres eliminar?");
@@ -127,7 +182,7 @@ public class MenuGestion {
 		}
 	}
 
-	private static void menuModificacion(Scanner opcMenu, Conexion con) {
+	public static void menuModificacion(Scanner opcMenu, Conexion con) {
 		try {
 
 			System.out.println("Introduce el indice del cine al que deseas cambiar el nombre:");
@@ -144,7 +199,7 @@ public class MenuGestion {
 		}
 	}
 
-	private static void insertCines(Scanner opcMenu, Conexion con) {
+	public static void insertCines(Scanner opcMenu, Conexion con) {
 		try {
 			System.out.println("Introduce el nombre del cine que quieres introducir:");
 			String nombreCine = opcMenu.nextLine();
@@ -158,7 +213,7 @@ public class MenuGestion {
 		}
 	}
 
-	private static void insertSalas(Scanner opcMenu, Conexion con) {
+	public static void insertSalas(Scanner opcMenu, Conexion con) {
 		try {
 			System.out.println("Introduce las caracteristicas de las salas de cine:");
 
@@ -176,7 +231,7 @@ public class MenuGestion {
 		}
 	}
 
-	private static void insertPelis(Scanner opcMenu, Conexion con) {
+	public static void insertPelis(Scanner opcMenu, Conexion con) {
 		try {
 			System.out.println("Introduce los datos de la pelicula a introducir:");
 

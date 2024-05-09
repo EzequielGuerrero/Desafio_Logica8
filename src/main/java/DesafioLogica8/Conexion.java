@@ -157,11 +157,11 @@ public class Conexion {
 
 			while (rs.next()) {
 
-				int indice=rs.getInt(1);
+				int indice = rs.getInt(1);
 				String nombre = rs.getString(2);
 				String dire = rs.getString(3);
-				
-				System.out.println(indice + " | "+ nombre + " | " + dire);
+
+				System.out.println(indice + " | " + nombre + " | " + dire);
 			}
 
 		} catch (SQLException e) {
@@ -171,7 +171,7 @@ public class Conexion {
 		}
 
 	}
-	
+
 	public void eliminarPeliculas(Connection con, int indice) throws SQLException {
 
 		String consultaEliminada = "Delete from peliculas where identificador = ?";
@@ -184,7 +184,6 @@ public class Conexion {
 
 			pst.executeUpdate();
 			con.commit();
-			
 
 			System.out.println("La pelicula ha sido eliminada");
 
@@ -194,7 +193,7 @@ public class Conexion {
 			con.rollback();
 		}
 	}
-	
+
 	public void modificarNombrePeli(Connection con, int identificador, String nombrePeli) throws SQLException {
 
 		String consulta_Update = "UPDATE peliculas SET titulo = ? WHERE identificador = ? ";
@@ -217,7 +216,7 @@ public class Conexion {
 			con.rollback();
 		}
 	}
-	
+
 	public void leerPeliculas(Connection con) {
 
 		try (Statement st = con.createStatement();) {
@@ -226,15 +225,16 @@ public class Conexion {
 
 			while (rs.next()) {
 
-				int indice=rs.getInt(1);
+				int indice = rs.getInt(1);
 				String nombre = rs.getString(2);
-				int duracion=rs.getInt(3);
+				int duracion = rs.getInt(3);
 				String genero = rs.getString(4);
 				String director = rs.getString(5);
-				int pegi=rs.getInt(6);
-				int precio=rs.getInt(7);
-				
-				System.out.println(indice + " | "+ nombre + " | " + duracion+ " | " + genero+ " | " + director+ " | " + pegi + " | " + precio);
+				int pegi = rs.getInt(6);
+				int precio = rs.getInt(7);
+
+				System.out.println(indice + " | " + nombre + " | " + duracion + " | " + genero + " | " + director
+						+ " | " + pegi + " | " + precio);
 			}
 
 		} catch (SQLException e) {
@@ -243,6 +243,78 @@ public class Conexion {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void eliminarSalas(Connection con, int indice) throws SQLException {
+
+		String consultaEliminada = "Delete from salas where identificador = ?";
+
+		try (PreparedStatement pst = con.prepareStatement(consultaEliminada)) {
+
+			con.setAutoCommit(false);
+
+			pst.setInt(1, indice);
+
+			pst.executeUpdate();
+			con.commit();
+
+			System.out.println("La sala ha sido eliminada");
+
+		} catch (SQLException e) {
+			System.err.println("No se ha podido completar la operacion");
+			e.printStackTrace();
+			con.rollback();
+		}
+	}
+
+	public void verSalas(Connection con) {
+
+		try {
+
+			Statement st = con.createStatement();
+
+			ResultSet rs = st.executeQuery("Select * from salas");
+
+			while (rs.next()) {
+
+				int indice = rs.getInt(1);
+				int capacidad = rs.getInt(2);
+				int metros = rs.getInt(3);
+
+				System.out.println(indice + " | " + capacidad + " | " + metros);
+
+			}
+		} catch (SQLException e) {
+
+			System.err.println("Las salas no se han podido consultar");
+			e.printStackTrace();
+		}
+
+	}
+
+	public void modificarSalas(Connection con, int capacidad, int indice) throws SQLException {
+
+		String consulta = "UPDATE salas SET capacidad = ? WHERE identificador = ?";
+
+		try {
+			con.setAutoCommit(false);
+
+			PreparedStatement pst = con.prepareStatement(consulta);
+
+			pst.setInt(1, capacidad);
+			pst.setInt(2, indice);
+
+			pst.executeUpdate();
+			con.commit();
+
+			System.out.println("Actualizacion realizada");
+
+		} catch (SQLException e) {
+			System.err.println("La actualizacion no se ha podido realizar");
+			con.rollback();
+			e.printStackTrace();
+
+		}
 	}
 
 }

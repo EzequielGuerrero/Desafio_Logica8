@@ -8,6 +8,6 @@
 </head>
 <body>
 <p>Hola guillermo</p>
-<button>hola</button>
+<button style="red">hola</button>
 </body>
 </html>
