@@ -33,19 +33,42 @@ public class MenuGestion {
 				menuModificacion(opcMenu, con);
 			}
 			if (opcionInterna == 3) {
-				menuDelete(opcMenu, con);
+				menuDeleteCines(opcMenu, con);
 			}
 			if (opcionInterna == 4) {
-				System.out.println("Lista de cines");
 
+				con.leerCines(con.getConection());
 			}
 
 			break;
 
 		case 2:
 
-			insertPelis(opcMenu, con);
+			System.out.println("¿Que operacion quieres realizar de las siguientes:?");
+			System.out.println(" 1.Crear registro." + "\n 2.Modificar un registro" + "\n 3.Borrar un registro "
+					+ "\n 4.Visializar todos los registros de la tabla ");
+
+			int menuDos = scn.nextInt();
+
+			if (menuDos == 1) {
+
+				insertPelis(opcMenu, con);
+			}
+			if (menuDos == 2) {
+
+				modificarPelis(opcMenu, con);
+			}
+			if (menuDos == 3) {
+
+				eliminarPeli(opcMenu, con);
+			}
+			if (menuDos == 4) {
+
+				con.leerPeliculas(con.getConection());
+			}
+
 			break;
+
 		case 3:
 
 			insertSalas(opcMenu, con);
@@ -60,7 +83,38 @@ public class MenuGestion {
 		}
 	}
 
-	private static void menuDelete(Scanner opcMenu, Conexion con) {
+	private static void modificarPelis(Scanner opcMenu, Conexion con) {
+		try {
+
+			System.out.println("Introduce el indice de la pelicula a la que deseas cambiar el nombre:");
+			int indiceMoficiado = opcMenu.nextInt();
+			opcMenu.nextLine();
+			System.out.println("Introduce el nuevo nombre:");
+			String nuevoNombre = opcMenu.nextLine();
+
+			con.modificarNombrePeli(con.getConection(), indiceMoficiado, nuevoNombre);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		
+		}
+	}
+
+	private static void eliminarPeli(Scanner opcMenu, Conexion con) {
+
+		try {
+			System.out.println("Introduce el indice de la pelicula a eliminar:");
+
+			int indiceDell = opcMenu.nextInt();
+
+			con.eliminarPeliculas(con.getConection(), indiceDell);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void menuDeleteCines(Scanner opcMenu, Conexion con) {
 		try {
 
 			System.out.println("¿Que numero de cine quieres eliminar?");
@@ -78,7 +132,7 @@ public class MenuGestion {
 
 			System.out.println("Introduce el indice del cine al que deseas cambiar el nombre:");
 			int indiceMoficiado = opcMenu.nextInt();
-
+			opcMenu.nextLine();
 			System.out.println("Introduce el nuevo nombre:");
 			String nuevoNombre = opcMenu.nextLine();
 
